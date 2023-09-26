@@ -20,6 +20,7 @@ const newReducer = createSlice({
         },
     },
 });
+//thunk action creator
 export const fetchData = () => {
     return async (dispatch) => {
         try {
