@@ -6,22 +6,31 @@
 // export default store;
 
 //updated version
-import { configureStore} from '@reduxjs/toolkit';
+import { configureStore,applyMiddleware } from '@reduxjs/toolkit';
 import newReducer, { updateTitle } from './reducers';
+import thunk from 'redux-thunk';
 
 const middleware1 = (store) => (next) => (action) => {
-    const previous = store.getState()// to get the current state 
-    if (action.type === 'newreducer/updateCount' && previous.count === 2) //action.type is which action is triggered
-    {
-        store.dispatch(updateTitle("new title"));// modifying the title
+    const previous = store.getState();
+    if (action.type === 'newReducer/updateCount' && previous.count === 3) {
+        store.dispatch(updateTitle("new title"));
     }
-    console.log("1st",previous)
-    return next(action);//passing the action
+    console.log("1st", previous);
+
+    return next(action);
 }
 const store = configureStore({
-    reducer: newReducer,//newReducer is wrapped to the store to make it global
-    middleware: [ middleware1]
+    reducer: newReducer,
+    middleware: [middleware1, thunk],
+});
+
+let unsubscribe = store.subscribe(() => {
+    const currentState = store.getState();
+    console.log("hello")
+
+    if (currentState.count === 3) {
+        unsubscribe(); // Unsubscribe when count reaches 10
+    }
 });
 
 export default store;
-

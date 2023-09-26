@@ -31,7 +31,7 @@ const initialState = { //setting initial state
 };
 
 const newReducer = createSlice({
-    name: 'newreducer',// name of the slice
+    name: 'newReducer',// name of the slice
     initialState,
     reducers: {
         updateTitle: (state, action) => {
