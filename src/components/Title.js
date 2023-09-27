@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateTitle } from '../redux/reducers';//import { updateTitle } from '../redux/action'(old version)
+import { updateTitle } from '../redux/Reducers';//import { updateTitle } from '../redux/action'(old version)
 
 const Title = () => {
     const title = useSelector((state) => state.title);
@@ -8,7 +8,7 @@ const Title = () => {
     const dispatch = useDispatch();// dispatch to access action
 
     const handleButtonClick = () => {
-            dispatch(updateTitle("Changed Title"));//value is updated to the action 
+        dispatch(updateTitle("Changed Title"));//value is updated to the action 
     };
 
     return (

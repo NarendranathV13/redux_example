@@ -6,13 +6,16 @@
 // export default store;
 
 //updated version
-import { configureStore,applyMiddleware } from '@reduxjs/toolkit';
-import newReducer, { updateTitle } from './reducers';
+import { configureStore, applyMiddleware } from '@reduxjs/toolkit';
+import Reducers,{updateTitle} from './Reducers';
+import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
+import rootSaga from './ReduxSaga/Saga';
 
+const sagaMiddleware = createSagaMiddleware();// initialize saga middleware
 const middleware1 = (store) => (next) => (action) => {
     const previous = store.getState();
-    if (action.type === 'newReducer/updateCount' && previous.count === 3) {
+    if (action.type === 'Reducer/updateCount' && previous.count === 3) {
         store.dispatch(updateTitle("new title"));
     }
     console.log("1st", previous);
@@ -20,9 +23,10 @@ const middleware1 = (store) => (next) => (action) => {
     return next(action);
 }
 const store = configureStore({
-    reducer: newReducer,
-    middleware: [middleware1, thunk],
+    reducer: Reducers,
+    middleware: [middleware1, sagaMiddleware, thunk],
 });
+sagaMiddleware.run(rootSaga); // starts the redux saga 
 
 let unsubscribe = store.subscribe(() => {
     const currentState = store.getState();
